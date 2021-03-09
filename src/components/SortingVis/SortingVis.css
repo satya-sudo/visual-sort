@@ -1,0 +1,12 @@
+.array-bars-container{
+    position: absolute;
+    left: 70px;
+}
+.ui.menu {
+    border-radius: 0px !important;
+}
+.array-bar{
+    width:6px;
+    display: inline-block;
+    margin: 0 1px;
+}
