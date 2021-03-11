@@ -4,22 +4,26 @@ import './SortingVis.css';
 
 import {mergeSort} from '../sortingAlgo/MergeSort';
 import {InsertionSort} from '../sortingAlgo/InsertionSort';
+import {BubbleSort} from '../sortingAlgo/BubbleSort';
 
-const SECONDARY_COLOR = 'red';
-const PRIMARY_COLOR = 'teal';
-const END_COLOR = 'pink';
-const ANIMATION_SPEED_MS = 1;
-const NO_BARS =  200;
+
+const SECONDARY_COLOR = '#db3a34';
+const PRIMARY_COLOR = '#43bccd';
+const END_COLOR = '#ea7317';
+const ANIMATION_SPEED_MS = 2;
+const NO_BARS =  150;
 
 export default class  SortingVis extends React.Component{
     constructor(props) {
         super(props);
         this.state ={
-            array:[]
+            array:[],inSortingPorcess:true
         };
         this.setArray = this.setArray.bind(this);
         this.mergeSortStart = this.mergeSortStart.bind(this);
         this.insertionSortStart =  this.insertionSortStart.bind(this);
+        this.bubbleSortStart =  this.bubbleSortStart.bind(this);
+
 
     }
     componentDidMount() { 
@@ -49,19 +53,20 @@ export default class  SortingVis extends React.Component{
             )
            
         })
-        console.log(array)
+        this.endArrayColorChange(PRIMARY_COLOR);
         return array
     }
 
-    endArrayColorChange = () => {
+    endArrayColorChange = (colorChange = END_COLOR) => {
         const arryBrs = document.getElementsByClassName('array-bar');
         for(let i = 0; i <  arryBrs.length ; i++){
-            arryBrs[i].style.backgroundColor =  END_COLOR;
+            arryBrs[i].style.backgroundColor =  colorChange;
         }
     }
 
 
     mergeSortStart() {
+        
         const animations  = mergeSort(this.state.array);
         for(let i= 0;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
@@ -88,23 +93,34 @@ export default class  SortingVis extends React.Component{
         },animations.length*ANIMATION_SPEED_MS);
     }
 
-    selectionSortStart = () => {
-
-    }
-
+  
     bubbleSortStart = () => {
+        const animations =  BubbleSort(this.state.array);
+        for(let i = 0 ;i < animations.length;i++){
+            const arryBrs = document.getElementsByClassName('array-bar');
+            const [x,y,c] =  animations[i];
+            if(c == 0){
+                setTimeout(()=>{arryBrs[x].style.backgroundColor = SECONDARY_COLOR;},i*ANIMATION_SPEED_MS);
+            } else if (c == 1) {
+                setTimeout(()=>{arryBrs[x].style.backgroundColor = PRIMARY_COLOR;},i*ANIMATION_SPEED_MS);
+            } else {
+                setTimeout(()=>{arryBrs[x].style.height = `${y}px`;},i*ANIMATION_SPEED_MS);
+
+            }
+        }
 
     }
 
-    quickSortStart = () => {
-
-    }
-
-    shellSortStart = () => {
-    }
 
     insertionSortStart = () =>{
+        // if (this.inSortingPorcess ===  true){
+        //     return;
+        // } 
+        // this.setState({inSortingPorcess:true});
+        
         const animetions  = InsertionSort(this.state.array);
+        // setTimeout(()=>{ this.setState({inSortingPorcess:false})},(animetions.length*(animetions.length-1)/2))
+
         for(let i = 0; i < animetions.length;i++){
             const arryBrs =  document.getElementsByClassName('array-bar');
             const [x,y,c] =  animetions[i];
@@ -123,14 +139,22 @@ export default class  SortingVis extends React.Component{
             }
         }
     }
+    selectionSortStart = () => {
+
+    }
 
     countingSortStart = () =>{}
 
+    quickSortStart = () => {
 
+    }
+
+    shellSortStart = () => {
+    }
     render() {
         return (
             <div>
-                <Header style={{padding:"4px"}}setArray={this.setArray} mergeSort={this.mergeSortStart} insertionSort={this.insertionSortStart}  />
+                <Header style={{padding:"4px"}}setArray={this.setArray} mergeSort={this.mergeSortStart} insertionSort={this.insertionSortStart} BubbleSort={this.bubbleSortStart} />
 
                 <div className="array-bars-container">
                     {this.renderArray()}
