@@ -12,6 +12,7 @@ export const InsertionSort = (array)=> {
             animetions.push([j,item,1]); 
             animetions.push([j+1,j,3]);
             animetions.push([j,j,3]);
+           
             array[j+1] = array[j];
             j--;
         } 
