@@ -233,7 +233,7 @@ export default class  SortingVis extends React.Component{
                     {this.renderArray()}
                 </div>
                 </div>
-                <button onClick={this.heapSortStart}></button>
+                {/* <button onClick={this.heapSortStart}></button> */}
             </div>
             
         )

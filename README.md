@@ -8,9 +8,8 @@ Visual Sort is an sorting algorithm visualizer made using reactjs
 - selection Sort 
 - bubble Sort
 - insertion Sort
-- quick Sort  "yet to implement"
-- shell Sort  "yet to implement"
-- counting Sort "yet to implement"
+- quick Sort  
+- heap Sort
 
 
 ## Contributing
