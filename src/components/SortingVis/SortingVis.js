@@ -7,6 +7,7 @@ import {InsertionSort} from '../sortingAlgo/InsertionSort';
 import {BubbleSort} from '../sortingAlgo/BubbleSort';
 import {SelectionSort} from '../sortingAlgo/selectionSort';
 import {quickSorter}  from '../sortingAlgo/quickSort';
+import {heapSort}  from '../sortingAlgo/HeapSort';
 
 
 
@@ -32,6 +33,7 @@ export default class  SortingVis extends React.Component{
         this.bubbleSortStart =  this.bubbleSortStart.bind(this);
         this.selectionSortStart =  this.selectionSortStart.bind(this);
         this.quickSortStart =  this.quickSortStart.bind(this);
+        this.heapSortStart = this.heapSortStart.bind(this);
 
     }
     componentDidMount() { 
@@ -169,7 +171,7 @@ export default class  SortingVis extends React.Component{
 
     }
 
-    countingSortStart = () =>{}
+    
 
     quickSortStart = () => {
         console.log("check \n")
@@ -194,8 +196,28 @@ export default class  SortingVis extends React.Component{
         },animations.length*ANIMATION_SPEED_MS);
     }
 
-    shellSortStart = () => {
-    }
+    heapSortStart = () =>{
+        const animations =  heapSort(this.state.array);
+        console.log(animations.length)
+        for(let i = 0 ;i < animations.length;i++){
+            const arryBrs = document.getElementsByClassName('array-bar');
+            const [x,y,c] =  animations[i];
+            if(c === 0){
+                setTimeout(()=>{arryBrs[x].style.backgroundColor = SECONDARY_COLOR;},i*ANIMATION_SPEED_MS);
+            } else if (c === 2) {
+                setTimeout(()=>{arryBrs[x].style.backgroundColor = PRIMARY_COLOR;},i*ANIMATION_SPEED_MS);
+            }  else if (c === 3) {
+                setTimeout(()=>{arryBrs[x].style.backgroundColor = COMPARE_COLOR ;},i*ANIMATION_SPEED_MS);
+            } else {
+                setTimeout(()=>{arryBrs[x].style.height = `${y}px`;},i*ANIMATION_SPEED_MS);
+
+            }
+        }
+        setTimeout(()=>{
+            this.endArrayColorChange();
+        },animations.length*ANIMATION_SPEED_MS);
+    } 
+    
     render() {
         return (
             <div>
@@ -204,13 +226,14 @@ export default class  SortingVis extends React.Component{
                 insertionSort={this.insertionSortStart} 
                 BubbleSort={this.bubbleSortStart} 
                 SelectionSort={this.selectionSortStart}
-                quickSort={this.quickSortStart}/>
+                quickSort={this.quickSortStart}
+                heapSort={this.heapSortStart}/>
                 <div className="ui container">
                 <div className="array-bars-container">
                     {this.renderArray()}
                 </div>
                 </div>
-                {/* <button onClick={this.quickSortStart}></button> */}
+                <button onClick={this.heapSortStart}></button>
             </div>
             
         )

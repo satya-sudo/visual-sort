@@ -10,12 +10,8 @@ const Header  = (props) =>{
             <div className="red item" onClick={()=>props.BubbleSort()}>Bubble Sort</div>
             <div className="red item" onClick={()=>props.insertionSort()}>Insertion Sort</div>
             <div className="red item" onClick={()=>props.quickSort()}>Quick Sort</div>
-            <div className="red item">Shell Sort</div>
-            <div className="red item">Counting Sort</div>
+            <div className="red item" onClick={()=>props.heapSort()}>HeapSort</div>
             <a href={"https://github.com/satya-sudo"} className="red item"><i className="github icon"></i>Made by Satyam Shree</a>
-
-
-
         </div>
     );
 }
