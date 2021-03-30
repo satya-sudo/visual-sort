@@ -17,7 +17,7 @@ const PRIMARY_COLOR = '#43bccd';
 const END_COLOR = '#ea7317';
 const COMPARE_COLOR = 'black'
 const ANIMATION_SPEED_MS = 5;
-const NO_BARS =  110;
+const NO_BARS =  80;
 
 
 
