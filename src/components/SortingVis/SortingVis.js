@@ -25,7 +25,8 @@ export default class  SortingVis extends React.Component{
     constructor(props) {
         super(props);
         this.state ={
-            array:[],inSortingPorcess:true
+            array:[],inSortingPorcess:true,
+            active:false
         };
         this.setArray = this.setArray.bind(this);
         this.mergeSortStart = this.mergeSortStart.bind(this);
@@ -41,6 +42,9 @@ export default class  SortingVis extends React.Component{
     }
 
     setArray() {
+        if(this.state.active){
+            return;
+        }
         let arr = [];
         for (let i =0 ;i<NO_BARS;i++){
             arr.push(Math.floor(Math.random() * (700 - 10) ) + 10);
@@ -76,7 +80,11 @@ export default class  SortingVis extends React.Component{
 
 
     mergeSortStart() {
-        const animations  = mergeSort(this.state.array);
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
+        const animations  = mergeSort([...this.state.array]);
         for(let i= 0;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
             const colorChangeReq = i%3 !== 2;
@@ -98,14 +106,22 @@ export default class  SortingVis extends React.Component{
             }
         }
         setTimeout(()=>{
+            this.setState({active:!this.state.active});
             this.endArrayColorChange();
+            
+
         },animations.length*ANIMATION_SPEED_MS);
     }
 
   
     bubbleSortStart = () => {
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
+
         const ANIMATION_SPEED_MS_Bub = ANIMATION_SPEED_MS
-        const animations =  BubbleSort(this.state.array);
+        const animations =  BubbleSort([...this.state.array]);
         for(let i = 0 ;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
             const [x,y,c] =  animations[i];
@@ -119,15 +135,21 @@ export default class  SortingVis extends React.Component{
             }
         }
         setTimeout(()=>{
+        this.setState({active:!this.state.active});
+
             this.endArrayColorChange();
         },animations.length*ANIMATION_SPEED_MS);
     }
 
 
     insertionSortStart = () =>{
-       
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
+
         
-        const animetions  = InsertionSort(this.state.array);
+        const animetions  = InsertionSort([...this.state.array]);
 
 
         for(let i = 0; i < animetions.length;i++){
@@ -149,8 +171,13 @@ export default class  SortingVis extends React.Component{
         }
     }
     selectionSortStart = () => {
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
 
-        const animations =  SelectionSort(this.state.array);
+
+        const animations =  SelectionSort([...this.state.array]);
         for(let i = 0 ;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
             const [x,y,c] =  animations[i];
@@ -166,6 +193,8 @@ export default class  SortingVis extends React.Component{
             }
         }
         setTimeout(()=>{
+        this.setState({active:!this.state.active});
+
             this.endArrayColorChange();
         },animations.length*ANIMATION_SPEED_MS);
 
@@ -174,8 +203,13 @@ export default class  SortingVis extends React.Component{
     
 
     quickSortStart = () => {
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
+
         console.log("check \n")
-        const animations =  quickSorter(this.state.array);
+        const animations =  quickSorter([...this.state.array]);
         console.log(animations.length)
         for(let i = 0 ;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
@@ -192,12 +226,20 @@ export default class  SortingVis extends React.Component{
             }
         }
         setTimeout(()=>{
+        this.setState({active:!this.state.active});
+
             this.endArrayColorChange();
+
         },animations.length*ANIMATION_SPEED_MS);
     }
 
     heapSortStart = () =>{
-        const animations =  heapSort(this.state.array);
+        if (this.state.active) {
+            return;
+        }
+        this.setState({active:!this.state.active});
+
+        const animations =  heapSort([...this.state.array]);
         console.log(animations.length)
         for(let i = 0 ;i < animations.length;i++){
             const arryBrs = document.getElementsByClassName('array-bar');
@@ -214,9 +256,18 @@ export default class  SortingVis extends React.Component{
             }
         }
         setTimeout(()=>{
+        this.setState({active:!this.state.active});
+
             this.endArrayColorChange();
         },animations.length*ANIMATION_SPEED_MS);
     } 
+
+    sortingMessage = () => {
+        if(this.state.active){
+            return <h2 style={{textAlign:"center"}}>Sorting</h2>
+        }
+
+    }
     
     render() {
         return (
@@ -233,7 +284,8 @@ export default class  SortingVis extends React.Component{
                     {this.renderArray()}
                 </div>
                 </div>
-                {/* <button onClick={this.heapSortStart}></button> */}
+                
+            {this.sortingMessage()}
             </div>
             
         )
